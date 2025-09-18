@@ -1,0 +1,35 @@
+<div class="users-container">
+  <header class="navbar">
+    <div class="logo">MeetHive</div>
+    <nav>
+      <ul>
+        <li (click)="goBack()">Back</li>
+        <li class="active">Users</li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="content">
+    <h2>Registered Users</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <span class="status" [ngClass]="user.status.toLowerCase()">
+              {{ user.status }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>

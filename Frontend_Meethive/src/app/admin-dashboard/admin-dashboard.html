@@ -1,0 +1,80 @@
+<!-- filename: src/app/admin-dashboard/admin-dashboard.html -->
+<nav class="navbar">
+  <div class="left">
+    <h2>MeetHive — Admin</h2>
+  </div>
+  <div class="right">
+    <button class="link" (click)="goToUsers()">Users</button>
+    <button class="link" (click)="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="admin-container">
+  <!-- Stats -->
+  <section class="stats">
+    <div class="stat-card">
+      <div class="stat-number">{{ totalEvents }}</div>
+      <div class="stat-label">Total Events</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ upcomingEvents }}</div>
+      <div class="stat-label">Upcoming</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ totalRSVPs }}</div>
+      <div class="stat-label">Total RSVPs</div>
+    </div>
+  </section>
+
+  <!-- Controls -->
+  <section class="controls">
+    <input type="text" placeholder="Search events..." [(ngModel)]="searchTerm" />
+    <select [(ngModel)]="filterType">
+      <option value="all">All</option>
+      <option value="upcoming">Upcoming</option>
+    </select>
+    <button class="btn-create" (click)="startCreating()">+ Create Event</button>
+  </section>
+
+  <!-- Create/Edit Form -->
+  <section *ngIf="isCreating" class="create-form">
+    <h3>{{ isEditing ? 'Edit Event' : 'Create Event' }}</h3>
+
+    <input type="text" placeholder="Title" [(ngModel)]="newEvent.title" />
+    <div class="row">
+      <input type="date" [(ngModel)]="newEvent.date" />
+      <input type="time" [(ngModel)]="newEvent.time" />
+    </div>
+    <input type="text" placeholder="Venue" [(ngModel)]="newEvent.venue" />
+    <textarea placeholder="Description" rows="3" [(ngModel)]="newEvent.description"></textarea>
+
+    <div class="form-actions">
+      <button class="btn-save" (click)="isEditing ? updateEvent() : saveEvent()">
+        {{ isEditing ? 'Update' : 'Save' }}
+      </button>
+      <button class="btn-cancel" (click)="isCreating = false; isEditing = false">Cancel</button>
+    </div>
+  </section>
+
+  <!-- Events Grid -->
+  <section class="events-grid">
+    <div class="event-card" *ngFor="let event of filteredEvents()">
+      <div class="event-top">
+        <h4>{{ event.title }}</h4>
+        <div class="event-actions">
+          <button class="btn-edit" (click)="editEvent(event)">Edit</button>
+          <button class="btn-delete" (click)="deleteEvent(event.id)">Delete</button>
+        </div>
+      </div>
+
+      <div class="meta">
+        <span class="date">{{ event.date }}</span>
+        <span class="time">@ {{ event.time }}</span>
+        <span class="venue">• {{ event.venue }}</span>
+      </div>
+
+      <p class="desc">{{ event.description }}</p>
+      <div class="rsvp">RSVPs: {{ event.rsvps }}</div>
+    </div>
+  </section>
+</div>

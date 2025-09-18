@@ -1,0 +1,6 @@
+FrontEnd_Meethive/node_modules/ 
+FrontEnd_Meethive/dist/ 
+Backend_Meethive/target/ 
+.DS_Store 
+.idea/ 
+*.log 

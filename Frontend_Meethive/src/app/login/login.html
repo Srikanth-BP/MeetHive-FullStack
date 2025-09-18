@@ -1,0 +1,41 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h1 class="brand">MeetHive</h1>
+    <h2 class="title">Welcome Back 👋</h2>
+    <p class="subtitle">Log in to continue</p>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+      <div class="form-group">
+        <input
+          type="text"
+          name="username"
+          [(ngModel)]="username"
+          placeholder="Username (admin / user)"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Password"
+          required
+        />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="loading">
+          {{ loading ? 'Logging in...' : 'Login' }}
+        </button>
+      </div>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </form>
+
+    <p class="footer-text">
+      Don’t have an account? <a routerLink="/signup">Sign up</a>
+    </p>
+  </div>
+</div>
