@@ -1,16 +1,16 @@
-<!-- filename: src/app/admin-dashboard/admin-dashboard.html -->
-<nav class="navbar">
-  <div class="left">
-    <h2>MeetHive — Admin</h2>
-  </div>
-  <div class="right">
-    <button class="link" (click)="goToUsers()">Users</button>
-    <button class="link" (click)="logout()">Logout</button>
-  </div>
-</nav>
-
+<!-- Admin Dashboard HTML (uses original CSS class names) -->
 <div class="admin-container">
-  <!-- Stats -->
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="left"><h2>MeetHive — Admin</h2></div>
+    <div class="right">
+      <button class="link" (click)="goToUsers()">👥 Users</button>
+      <button class="link" (click)="logout()">🚪 Logout</button>
+    </div>
+  </nav>
+
+  <!-- STATS -->
   <section class="stats">
     <div class="stat-card">
       <div class="stat-number">{{ totalEvents }}</div>
@@ -26,39 +26,89 @@
     </div>
   </section>
 
-  <!-- Controls -->
-  <section class="controls">
-    <input type="text" placeholder="Search events..." [(ngModel)]="searchTerm" />
-    <select [(ngModel)]="filterType">
+  <!-- NEWS HEADER -->
+  <section class="news-section">
+    <div class="news-header" style="display:flex; justify-content:space-between; align-items:center;">
+      <h3>📢 Announcements</h3>
+      <button class="btn-create" (click)="toggleNewsForm()">
+        {{ isPostingNews ? 'Cancel' : '+ Post News' }}
+      </button>
+    </div>
+
+    <div *ngIf="isPostingNews" class="create-form" style="max-width:760px; margin-top:12px;">
+      <textarea [(ngModel)]="newNews" placeholder="Write your announcement..." rows="3"></textarea>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+        <button class="btn-save" (click)="postNews()">Post</button>
+        <button class="btn-cancel" (click)="isPostingNews=false">Cancel</button>
+      </div>
+    </div>
+
+    <div class="news-list" *ngIf="newsList.length > 0; else noNews" style="margin-top:12px;">
+      <div class="news-card" *ngFor="let news of newsList">
+        <p>{{ news.message }}</p>
+        <small>{{ news.createdAt | date:'short' }}</small>
+        <button class="btn-delete" (click)="deleteNews(news.id!)">✖</button>
+      </div>
+    </div>
+
+    <ng-template #noNews>
+      <p class="empty-news">No announcements yet.</p>
+    </ng-template>
+  </section>
+
+  <!-- CONTROLS -->
+  <section class="controls" style="margin-top:18px;">
+    <input type="text" placeholder="🔎 Search events..." [(ngModel)]="searchTerm" (input)="applyFilter()" />
+    <select [(ngModel)]="filterType" (change)="applyFilter()">
       <option value="all">All</option>
       <option value="upcoming">Upcoming</option>
     </select>
     <button class="btn-create" (click)="startCreating()">+ Create Event</button>
   </section>
 
-  <!-- Create/Edit Form -->
+  <!-- CREATE / EDIT FORM (uses original .create-form styling) -->
   <section *ngIf="isCreating" class="create-form">
-    <h3>{{ isEditing ? 'Edit Event' : 'Create Event' }}</h3>
+    <h3>{{ isEditing ? '✏️ Edit Event' : '➕ Create Event' }}</h3>
 
-    <input type="text" placeholder="Title" [(ngModel)]="newEvent.title" />
-    <div class="row">
-      <input type="date" [(ngModel)]="newEvent.date" />
-      <input type="time" [(ngModel)]="newEvent.time" />
+    <div class="form-group">
+      <input type="text" placeholder="Title" [(ngModel)]="newEvent.title" />
+      <p class="error" *ngIf="errors.title">{{ errors.title }}</p>
     </div>
-    <input type="text" placeholder="Venue" [(ngModel)]="newEvent.venue" />
-    <textarea placeholder="Description" rows="3" [(ngModel)]="newEvent.description"></textarea>
+
+    <div class="row">
+      <div class="form-group">
+        <input type="date" [(ngModel)]="newEvent.date" />
+        <p class="error" *ngIf="errors.date">{{ errors.date }}</p>
+      </div>
+      <div class="form-group">
+        <input type="time" [(ngModel)]="newEvent.time" />
+        <p class="error" *ngIf="errors.time">{{ errors.time }}</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <input type="text" placeholder="Venue" [(ngModel)]="newEvent.venue" />
+      <p class="error" *ngIf="errors.venue">{{ errors.venue }}</p>
+    </div>
+
+    <div class="form-group">
+      <textarea placeholder="Description" rows="3" [(ngModel)]="newEvent.description"></textarea>
+      <p class="error" *ngIf="errors.description">{{ errors.description }}</p>
+    </div>
+
+    <p class="error" *ngIf="errors.general">{{ errors.general }}</p>
 
     <div class="form-actions">
       <button class="btn-save" (click)="isEditing ? updateEvent() : saveEvent()">
         {{ isEditing ? 'Update' : 'Save' }}
       </button>
-      <button class="btn-cancel" (click)="isCreating = false; isEditing = false">Cancel</button>
+      <button class="btn-cancel" (click)="cancelForm()">Cancel</button>
     </div>
   </section>
 
-  <!-- Events Grid -->
-  <section class="events-grid">
-    <div class="event-card" *ngFor="let event of filteredEvents()">
+  <!-- EVENTS GRID -->
+  <section class="events-grid" style="margin-top:22px;">
+    <div class="event-card" *ngFor="let event of filteredEvents">
       <div class="event-top">
         <h4>{{ event.title }}</h4>
         <div class="event-actions">
@@ -68,13 +118,14 @@
       </div>
 
       <div class="meta">
-        <span class="date">{{ event.date }}</span>
-        <span class="time">@ {{ event.time }}</span>
-        <span class="venue">• {{ event.venue }}</span>
+        <span class="date"><strong>Date:</strong> {{ event.date }}</span>
+        <span class="time">| <strong>Time:</strong> {{ event.time }}</span>
+        <span class="venue">• <strong>Venue:</strong> {{ event.venue }}</span>
       </div>
 
       <p class="desc">{{ event.description }}</p>
-      <div class="rsvp">RSVPs: {{ event.rsvps }}</div>
+      <div class="rsvp">RSVPs: {{ event.rsvps || 0 }}</div>
     </div>
   </section>
+
 </div>

@@ -3,27 +3,72 @@
     <h1 class="brand-title">MeetHive</h1>
     <h2>Create Your Account</h2>
 
-    <form>
+    <!-- Message -->
+    <p [ngStyle]="{'color': message === 'Signup successful!' ? 'green' : 'red', 'margin-bottom': '10px'}">
+      {{ message }}
+    </p>
+
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm" novalidate>
+
+      <!-- Full Name -->
       <div class="input-group">
-        <input type="text" placeholder="Full Name" required />
+        <input 
+          type="text" 
+          placeholder="Full Name" 
+          [(ngModel)]="signupData.fullName" 
+          name="fullName" 
+          #fullName="ngModel" />
+        <div class="validation-error" *ngIf="fullNameError">
+          {{ fullNameError }}
+        </div>
       </div>
 
+      <!-- Email -->
       <div class="input-group">
-        <input type="email" placeholder="Email" required />
+        <input 
+          type="email" 
+          placeholder="Email" 
+          [(ngModel)]="signupData.email" 
+          name="email" 
+          #email="ngModel" />
+        <div class="validation-error" *ngIf="emailError">
+          {{ emailError }}
+        </div>
       </div>
 
+      <!-- Password -->
       <div class="input-group">
-        <input type="password" placeholder="Password" required />
+        <input 
+          type="password" 
+          placeholder="Password" 
+          [(ngModel)]="signupData.password" 
+          name="password" 
+          #password="ngModel" />
+        <div class="validation-error" *ngIf="passwordError">
+          {{ passwordError }}
+        </div>
       </div>
 
+      <!-- Confirm Password -->
       <div class="input-group">
-        <input type="password" placeholder="Confirm Password" required />
+        <input 
+          type="password" 
+          placeholder="Confirm Password" 
+          [(ngModel)]="signupData.confirmPassword" 
+          name="confirmPassword" 
+          #confirmPassword="ngModel" />
+        <div class="validation-error" *ngIf="confirmPasswordError">
+          {{ confirmPasswordError }}
+        </div>
       </div>
 
-      <button type="submit" class="btn-primary">Sign Up</button>
+      <!-- Submit Button -->
+      <button type="submit" class="btn-primary">
+        Sign Up
+      </button>
 
       <p class="switch-link">
-        Already have an account? <a routerLink="/login">Login</a>
+        Already have an account? <a [routerLink]="['/login']">Login</a>
       </p>
     </form>
   </div>

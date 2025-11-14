@@ -6,6 +6,8 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard';
 import { UsersComponent } from './users/users';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard';
 import { MyEventsComponent } from './my-events/my-events';
+import { AboutUsComponent } from './about-us/about-us';
+import { ProfileComponent } from './profile/profile';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -14,5 +16,7 @@ export const routes: Routes = [
   { path: 'admin-dashboard', component: AdminDashboardComponent },
   { path: 'admin/users', component: UsersComponent },
   { path: 'user-dashboard', component: UserDashboardComponent },
-  { path: 'my-events', component: MyEventsComponent }
+  { path: 'my-events', component: MyEventsComponent },
+  { path: 'about-us', component: AboutUsComponent },
+  { path: 'profile', component: ProfileComponent }
 ];

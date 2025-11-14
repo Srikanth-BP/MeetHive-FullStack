@@ -1,0 +1,91 @@
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background: linear-gradient(135deg, #f8fafc, #e0f2fe);
+  padding: 20px;
+}
+
+.profile-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+.cancel {
+  background: #ef4444;
+}
+
+.cancel:hover {
+  background: #dc2626;
+}
+
+.success {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.back {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.back a {
+  color: #3b82f6;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.back a:hover {
+  text-decoration: underline;
+}

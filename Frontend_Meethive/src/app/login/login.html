@@ -5,32 +5,48 @@
     <p class="subtitle">Log in to continue</p>
 
     <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+      <!-- Email -->
       <div class="form-group">
         <input
-          type="text"
+          type="email"
           name="username"
           [(ngModel)]="username"
-          placeholder="Username (admin / user)"
+          placeholder="Email"
+          #usernameCtrl="ngModel"
           required
+          email
         />
+        <p class="error" *ngIf="usernameCtrl.invalid && (usernameCtrl.touched || submitted)">
+          <span *ngIf="usernameCtrl.errors?.['required']">Email is required</span>
+          <span *ngIf="usernameCtrl.errors?.['email']">Enter a valid email</span>
+        </p>
       </div>
 
+      <!-- Password -->
       <div class="form-group">
         <input
           type="password"
           name="password"
           [(ngModel)]="password"
           placeholder="Password"
+          #passwordCtrl="ngModel"
           required
+          minlength="4"
         />
+        <p class="error" *ngIf="passwordCtrl.invalid && (passwordCtrl.touched || submitted)">
+          <span *ngIf="passwordCtrl.errors?.['required']">Password is required</span>
+          <span *ngIf="passwordCtrl.errors?.['minlength']">Password must be at least 4 characters</span>
+        </p>
       </div>
 
+      <!-- Button -->
       <div class="form-actions">
         <button type="submit" class="btn-primary" [disabled]="loading">
           {{ loading ? 'Logging in...' : 'Login' }}
         </button>
       </div>
 
+      <!-- Backend error -->
       <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
     </form>
 

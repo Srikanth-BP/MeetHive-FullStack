@@ -1,0 +1,43 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>User Profile</h2>
+
+    <!-- Success / Error message -->
+    <p *ngIf="message" class="success" [ngStyle]="{'color': message.startsWith('✅') ? 'green' : 'red'}">{{ message }}</p>
+
+    <!-- Profile Form -->
+    <form *ngIf="isEditing; else viewMode" (ngSubmit)="saveProfile()">
+      <label>Full Name</label>
+      <input type="text" [(ngModel)]="user.fullName" name="fullName" />
+      <div class="validation-error" *ngIf="errors.fullName">{{ errors.fullName }}</div>
+
+      <label>Email</label>
+      <input type="email" [(ngModel)]="user.email" name="email" />
+      <div class="validation-error" *ngIf="errors.email">{{ errors.email }}</div>
+
+      <label>Password</label>
+      <input type="password" [(ngModel)]="user.password" name="password" placeholder="Enter new password" />
+      <div class="validation-error" *ngIf="errors.password">{{ errors.password }}</div>
+
+      <div class="actions">
+        <button type="submit" [disabled]="loading">💾 Save</button>
+        <button type="button" class="cancel" (click)="isEditing=false">Cancel</button>
+      </div>
+    </form>
+
+    <!-- View Mode -->
+    <ng-template #viewMode>
+      <p><strong>Name:</strong> {{ user.fullName }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Password:</strong> ••••••••</p>
+
+      <div class="actions">
+        <button type="button" (click)="enableEdit()">✏️ Edit Profile</button>
+      </div>
+    </ng-template>
+
+    <div class="back">
+      <a (click)="goBack()">⬅ Back to Dashboard</a>
+    </div>
+  </div>
+</div>

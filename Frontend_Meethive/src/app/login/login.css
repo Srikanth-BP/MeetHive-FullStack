@@ -114,3 +114,11 @@
     transform: translateY(0);
   }
 }
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}

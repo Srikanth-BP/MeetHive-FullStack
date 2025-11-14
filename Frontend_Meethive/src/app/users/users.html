@@ -1,32 +1,43 @@
 <div class="users-container">
   <header class="navbar">
     <div class="logo">MeetHive</div>
-    <nav>
-      <ul>
-        <li (click)="goBack()">Back</li>
-        <li class="active">Users</li>
-      </ul>
+    <nav class="nav-links">
+      <span class="back-link" (click)="goBack()">← Back</span>
+      <span class="active">Users</span>
     </nav>
   </header>
 
   <main class="content">
     <h2>Registered Users</h2>
+
+    <!-- Toast -->
+    <div *ngIf="showToast" class="toast">{{ toastMessage }}</div>
+
     <table>
       <thead>
         <tr>
           <th>Name</th>
           <th>Email</th>
-          <th>Status</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user.name }}</td>
+        <tr *ngFor="let user of users; trackBy: trackById">
+          <td>{{ user.fullName }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <span class="status" [ngClass]="user.status.toLowerCase()">
-              {{ user.status }}
-            </span>
+            <button 
+              *ngIf="!user.isBlocked" 
+              class="block-btn" 
+              (click)="toggleBlock(user)">
+              Block
+            </button>
+            <button 
+              *ngIf="user.isBlocked" 
+              class="unblock-btn" 
+              (click)="toggleBlock(user)">
+              Unblock
+            </button>
           </td>
         </tr>
       </tbody>

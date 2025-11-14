@@ -57,3 +57,10 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+
+
+
+
+in admin-dashboard we have users in navbar for attendance that has name email and status right see now when user clicks on rsvp then his name email and status has to be stored in a db(table) from that we will display in admin-dashboard users in navbar when clicked(we already have the hardcoded one) 
